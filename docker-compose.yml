@@ -1,0 +1,18 @@
+version: '2'
+
+services:
+    drop-robotapi-php:
+        build: .
+        container_name: drop-robotapi-php
+        working_dir: /api
+        env_file: .env
+        volumes:
+            - .:/api
+            - /sys:/sys
+        devices:
+            - /dev/mem
+            - /dev/gpiomem
+        command:
+            - "./services/drop-fleetcontrol-slave/bin/wait-for-it.sh"
+            - "php"
+            - "./services/drop-fleetcontrol-slave/bin/execute-orders.php"
